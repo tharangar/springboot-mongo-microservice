@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.davromalc</groupId>
+	<artifactId>spring-boot-mongo-docker</artifactId>
+	<version>${version.number}</version>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.4.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+
+		<!-- IntelliJ grouses the following dynamic properties. Workaround: Settings > Build, Execution, Development > Build Tools > Maven > Runner > Properties. Add git.commit.time and git.commit.id.abbrev with empty value. -->
+		<version.number>${git.commit.time}.${git.commit.id.abbrev}</version.number>
+		<docker.repository.name>aritranag20/${project.artifactId}</docker.repository.name>
+		<!-- Instead of docker hub, you can use your own registry: -->
+		<!--<docker.repository.name>registry.domain.de/group/${project.artifactId}</docker.repository.name>-->
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<dateFormat>yyyyMMdd-HHmmss</dateFormat><!--  human-readable part of the version id -->
+					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+					<generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.15.9</version>
+				<extensions>true</extensions>
+				<configuration>
+					<authConfig> <!-- or use "docker login" up front to store the credentials on the local machine. -->
+						<username>aritranag20</username>
+						<password>1qaz@WSX</password>
+					</authConfig>
+					<images>
+						<image>
+							<name>${docker.repository.name}:${version.number}</name>
+							<alias>${project.artifactId}</alias>
+							<build>
+								<from>anapsix/alpine-java:jre8</from>
+								<tags><!-- define additional tags for the image -->
+									<tag>latest</tag>
+								</tags>
+								<assembly>
+									<descriptor>assembly.xml</descriptor>
+								</assembly>
+								<ports>
+									<port>8080</port>
+								</ports>
+								<cmd>
+									<shell>
+										java -jar /maven/${project.artifactId}-${version.number}.jar
+									</shell>
+								</cmd>
+							</build>
+						</image>
+					</images>
+				</configuration>
+				<executions>
+					<execution>
+						<id>build-docker-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>push-docker-image-to-registry</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<configuration>
+					<skip>true</skip> <!-- we push the container image to the local registry instead -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip> <!--  we push the image instead  -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

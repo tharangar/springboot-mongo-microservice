@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: spring-boot-mongo-docker
+Implementation-Version: ${git.commit.time}.${git.commit.id.abbrev}
+Built-By: wso2
+Implementation-Vendor-Id: org.davromalc
+Build-Jdk: 1.8.0_202
+Implementation-URL: http://projects.spring.io/spring-boot/spring-boot-
+ mongo-docker/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
