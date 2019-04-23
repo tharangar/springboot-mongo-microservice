@@ -1,6 +1,10 @@
 package org.davromalc.tutorial.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.davromalc.tutorial.model.Customer;
 import org.davromalc.tutorial.repository.CustomerRepository;
@@ -63,5 +67,14 @@ public class CustomerRestController {
 		LOGGER.info("Storing customer in database {}", customer);
 		repository.save(customer);
 	}
+	
+	@RequestMapping(value = "savecustomer/", method = RequestMethod.POST)
+	public Customer createCustomer(@Valid @RequestBody Customer customer) {
+	  String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+	  customer.set_id(timeStamp);
+	  repository.save(customer);
+	  return customer;
+	}
+	
 	
 }

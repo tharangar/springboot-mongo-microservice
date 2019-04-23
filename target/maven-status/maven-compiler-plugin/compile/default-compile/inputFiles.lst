@@ -1,4 +1,6 @@
-/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker/src/main/java/org/davromalc/tutorial/model/Customer.java
-/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker/src/main/java/org/davromalc/tutorial/Application.java
-/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker/src/main/java/org/davromalc/tutorial/repository/CustomerRepository.java
-/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker/src/main/java/org/davromalc/tutorial/controller/CustomerRestController.java
+/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker without security/src/main/java/org/davromalc/tutorial/model/Users.java
+/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker without security/src/main/java/org/davromalc/tutorial/repository/CustomerRepository.java
+/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker without security/src/main/java/org/davromalc/tutorial/model/Customer.java
+/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker without security/src/main/java/org/davromalc/tutorial/controller/CustomerRestController.java
+/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker without security/src/main/java/org/davromalc/tutorial/repository/UsersRepository.java
+/Users/wso2/Documents/springBootMicroServices/spring-boot-mongo-kubernetes-docker without security/src/main/java/org/davromalc/tutorial/Application.java

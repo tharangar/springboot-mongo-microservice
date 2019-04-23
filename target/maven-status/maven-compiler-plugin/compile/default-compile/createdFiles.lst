@@ -1,4 +1,6 @@
+org/davromalc/tutorial/repository/UsersRepository.class
 org/davromalc/tutorial/controller/CustomerRestController.class
 org/davromalc/tutorial/Application.class
 org/davromalc/tutorial/model/Customer.class
 org/davromalc/tutorial/repository/CustomerRepository.class
+org/davromalc/tutorial/model/Users.class
